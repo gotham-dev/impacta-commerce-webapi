@@ -1,0 +1,28 @@
+from api.model.cart_model import Cart
+from flask import json
+from datetime import datetime
+from api.model import db
+
+
+def get_by_code(cart_code):
+    return Cart.query.filter(
+        Cart.code == cart_code
+    ).one()
+
+
+def get_all_carts():
+    return Cart.query.all()
+
+
+def save_content(cart_code, content):
+    Cart.query.filter(Cart.code == cart_code).update(
+        {
+            Cart.content: json.dumps(content),
+            Cart.updated_at: datetime.utcnow()
+        }, synchronize_session=False
+    )
+    db.session.commit()
+
+    return get_by_code(cart_code)
+
+
