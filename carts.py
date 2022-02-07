@@ -81,7 +81,7 @@ db.session.commit()
 @app.route("/carts/")
 @app.route("/carts/<cart_code>")
 def get(cart_code=None):
-    """Lista todos os carts ou exibe os detalhes de um único cart quando o código é informado."""
+    """Lista todos ou exibe os detalhes de um cart quando cart_code informado."""
     if cart_code is not None:
         cart = Cart.query.filter(
             Cart.code == cart_code
@@ -100,7 +100,10 @@ def put(cart_code=None):
     payload = request.get_json()
 
     Cart.query.filter(Cart.code == cart_code).update(
-        {Cart.content: json.dumps(payload), Cart.updated_at: datetime.utcnow()}, synchronize_session=False
+        {
+            Cart.content: json.dumps(payload), 
+            Cart.updated_at: datetime.utcnow()
+        }, synchronize_session=False
     )
     db.session.commit()
 
