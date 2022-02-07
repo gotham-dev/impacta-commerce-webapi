@@ -1,9 +1,7 @@
-from http.client import ImproperConnectionState
 from flask import Flask, request
 from flask import jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-import decimal
 
 # Inicializa a aplicação Flask com configurações padrão
 app = Flask(__name__)
@@ -13,8 +11,9 @@ CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
 db = SQLAlchemy(app)
 
-# Cria a entidade de produto
+
 class Product(db.Model):
+    """Cria a entidade de produto"""
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), unique=False, nullable=False)
     amount = db.Column(db.Numeric, unique=False, nullable=False)
@@ -36,15 +35,18 @@ class Product(db.Model):
             }
         }
 
+
 # Cria o banco de dados em memória
 db.create_all()
 
 # Cria dois produtos
-product1 = Product(title='Caneca Personalizada de Porcelana', amount=123.45,
-                installments=3, installments_fee=False)
+product1 = Product(
+    title='Caneca Personalizada de Porcelana', amount=123.45,
+    installments=3, installments_fee=False)
 
-product2 = Product(title='Caneca de Tulipa', amount=123.45,
-                installments=3, installments_fee=False)
+product2 = Product(
+    title='Caneca de Tulipa', amount=123.45,
+    installments=3, installments_fee=False)
 
 # Insere os dois produtos no banco de dados em memória
 db.session.add(product1)
@@ -53,9 +55,10 @@ db.session.add(product2)
 # Commit a transaction do banco de dados.
 db.session.commit()
 
-# Cria uma rota para consulta de produtos baseada no parâmetro query.
+
 @app.route("/products", methods=['GET'])
 def get_products():
+    """Cria uma rota para consulta de produtos baseada no parâmetro query."""
     args = request.args.to_dict()
     query = args.get("query")
 
@@ -63,7 +66,8 @@ def get_products():
         all_products = Product.query.all()
     else:
         all_products = Product.query.filter(
-            Product.title.like(f'%{query}%')).all()
+            Product.title.like(f'%{query}%')
+        ).all()
 
     return jsonify({
         'query': query,
