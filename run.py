@@ -1,11 +1,16 @@
 # import os
 from api import create_app
 from api.model import initialize_db
+import os
 
-if __name__ == '__main__':
-    app = create_app('dev')
-    app.app_context().push()
-    
-    initialize_db.init()
 
-    app.run()
+flask_env = os.getenv('FLASK_ENV')
+
+print('FLASK_ENV:' + flask_env)
+
+app = create_app(flask_env)
+app.app_context().push()
+
+initialize_db.init()
+
+# app.run()
