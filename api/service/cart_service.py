@@ -2,12 +2,20 @@ from api.model.cart_model import Cart
 from flask import json
 from datetime import datetime
 from api.model import db
+from api.model import initialize_db
 
 
 def get_by_code(cart_code):
-    return Cart.query.filter(
+    cart = Cart.query.filter(
         Cart.code == cart_code
-    ).one()
+    ).first()
+
+    if cart is None:
+        initialize_db.init_carts()
+        db.session.commit()
+        return get_by_code(cart_code)
+
+    return cart
 
 
 def get_all_carts():

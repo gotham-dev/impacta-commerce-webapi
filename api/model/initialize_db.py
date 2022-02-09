@@ -11,6 +11,9 @@ def init():
     init_carts()
     init_products()
 
+    # Commit a transaction do banco de dados.
+    db.session.commit()
+
 def init_carts():
     # Cria um Cart inicial de acordo com o protótipo.
     now = datetime.utcnow()
@@ -47,8 +50,6 @@ def init_carts():
     # Insere os dois produtos no banco de dados em memória
     db.session.add(cart)
 
-    # Commit a transaction do banco de dados.
-    db.session.commit()
 
 
 def init_products():
@@ -65,5 +66,3 @@ def init_products():
     db.session.add(product1)
     db.session.add(product2)
 
-    # Commit a transaction do banco de dados.
-    db.session.commit()

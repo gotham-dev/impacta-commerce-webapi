@@ -5,6 +5,7 @@ from api.model import db
 from api.controller.hello_controller import hello_api
 from api.controller.carts_controller import cart_api
 from api.controller.product_controller import product_api
+from api.controller.orders_controller import order_api
 
 
 def create_app(config_filename):
@@ -15,6 +16,7 @@ def create_app(config_filename):
     app.register_blueprint(hello_api)
     app.register_blueprint(cart_api)
     app.register_blueprint(product_api)
+    app.register_blueprint(order_api)
     db.init_app(app)
     CORS(app)
 
