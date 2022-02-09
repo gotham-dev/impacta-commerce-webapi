@@ -1,5 +1,4 @@
 from math import prod
-import re
 from api.model.cart_model import Cart
 from api.model.order_model import Order
 from flask import json
