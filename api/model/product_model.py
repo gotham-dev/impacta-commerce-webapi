@@ -1,4 +1,5 @@
 from api.model import db
+import uuid
 
 class Product(db.Model):
     """Cria a entidade de produto"""
@@ -17,6 +18,7 @@ class Product(db.Model):
             'id': self.id,
             'title': self.title,
             'amount': round(self.amount, 2),
+            'code': self.id,
             'installments': {
                 'number': self.installments,
                 'total': round(self.amount / self.installments, 2)

@@ -11,4 +11,4 @@ app.app_context().push()
 
 initialize_db.init()
 
-# app.run()
+app.run()
